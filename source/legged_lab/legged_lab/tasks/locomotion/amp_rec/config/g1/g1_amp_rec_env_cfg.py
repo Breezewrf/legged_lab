@@ -150,15 +150,10 @@ class G1AmpRecEnvCfg(LocomotionAmpRecEnvCfg):
 
         torso_cfg = SceneEntityCfg("robot", body_names="torso_link")
 
-        # Remove following observations from policy input
-        # self.observations.policy.torso_contacts.params = {"sensor_cfg": SceneEntityCfg("contact_forces", body_names="torso_link")}
-        # self.observations.policy.knee_contacts.params = {"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*_knee_link")}
-        # self.observations.policy.arm_contacts.params = {"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*_shoulder_.*|.*_elbow_.*|.*_wrist_.*")}
-        # self.observations.policy.fallen_fast.params = {
-        #     "asset_cfg": torso_cfg,
-        #     "min_duration_s": 0.25,
-        #     "height_threshold": 0.32,
-        # }
+        self.observations.policy.torso_contacts = None
+        self.observations.policy.knee_contacts = None
+        self.observations.policy.arm_contacts = None
+        self.observations.policy.fallen_fast = None
 
         self.observations.critic.torso_contacts.params = {"sensor_cfg": SceneEntityCfg("contact_forces", body_names="torso_link")}
         self.observations.critic.knee_contacts.params = {"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*_knee_link")}
