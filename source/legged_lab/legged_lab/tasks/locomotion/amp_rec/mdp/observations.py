@@ -39,7 +39,7 @@ def contact_binary(
 def fallen_fast_obs(
     env: ManagerBasedEnv,
     min_duration_s: float = 0.25,
-    height_threshold: float = 0.32,
+    height_threshold: float = 0.26,
     asset_cfg: SceneEntityCfg = SceneEntityCfg("robot", body_names="torso_link"),
 ) -> torch.Tensor:
     """Fast fallen detector as observation."""
@@ -53,8 +53,8 @@ def fallen_fast_obs(
 
 def fallen_persistent_obs(
     env: ManagerBasedEnv,
-    min_duration_s: float = 2.0,
-    height_threshold: float = 0.32,
+    min_duration_s: float = 0.8,
+    height_threshold: float = 0.26,
     asset_cfg: SceneEntityCfg = SceneEntityCfg("robot", body_names="torso_link"),
 ) -> torch.Tensor:
     """Persistent fallen detector as observation."""

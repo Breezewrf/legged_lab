@@ -58,7 +58,7 @@ def _update_fallen_steps(
 def fallen_time_mask(
     env: ManagerBasedEnv,
     min_duration_s: float,
-    height_threshold: float = 0.32,
+    height_threshold: float = 0.26,
     asset_cfg: SceneEntityCfg = SceneEntityCfg("robot", body_names="torso_link"),
 ) -> torch.Tensor:
     """Return boolean mask when torso stays below threshold for at least min_duration_s."""
@@ -72,7 +72,7 @@ def fallen_time_mask(
 def fallen_fast_mask(
     env: ManagerBasedEnv,
     min_duration_s: float = 0.25,
-    height_threshold: float = 0.32,
+    height_threshold: float = 0.26,
     asset_cfg: SceneEntityCfg = SceneEntityCfg("robot", body_names="torso_link"),
 ) -> torch.Tensor:
     """Fast fallen detector for reward gating."""
@@ -86,8 +86,8 @@ def fallen_fast_mask(
 
 def fallen_persistent_mask(
     env: ManagerBasedEnv,
-    min_duration_s: float = 2.0,
-    height_threshold: float = 0.32,
+    min_duration_s: float = 0.8,
+    height_threshold: float = 0.26,
     asset_cfg: SceneEntityCfg = SceneEntityCfg("robot", body_names="torso_link"),
 ) -> torch.Tensor:
     """Persistent fallen detector for robust state labeling."""

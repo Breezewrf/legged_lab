@@ -20,7 +20,8 @@ def track_lin_vel_xy_exp_when_upright(
     command_name: str,
     std: float,
     fallen_min_duration_s: float = 0.25,
-    fallen_height_threshold: float = 0.32,
+    fallen_height_threshold: float = 0.26,
+    fallen_velocity_scale: float = 0.3,
     fall_asset_cfg: SceneEntityCfg = SceneEntityCfg("robot", body_names="torso_link"),
     asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
 ) -> torch.Tensor:
@@ -32,13 +33,18 @@ def track_lin_vel_xy_exp_when_upright(
         height_threshold=fallen_height_threshold,
         asset_cfg=fall_asset_cfg,
     )
-    return reward * (~fallen).float()
+    reward_scale = torch.where(
+        fallen,
+        torch.full_like(reward, fallen_velocity_scale),
+        torch.ones_like(reward),
+    )
+    return reward * reward_scale
 
 
 def upright_recovery_reward(
     env: ManagerBasedRLEnv,
     fallen_min_duration_s: float = 0.25,
-    fallen_height_threshold: float = 0.32,
+    fallen_height_threshold: float = 0.26,
     up_asset_cfg: SceneEntityCfg = SceneEntityCfg("robot", body_names="torso_link"),
 ) -> torch.Tensor:
     """Reward torso alignment with world up while recovering from a fall."""
@@ -65,7 +71,7 @@ def root_height_recovery_reward(
     target_height: float,
     std: float,
     fallen_min_duration_s: float = 0.25,
-    fallen_height_threshold: float = 0.32,
+    fallen_height_threshold: float = 0.26,
     asset_cfg: SceneEntityCfg = SceneEntityCfg("robot", body_names="torso_link"),
 ) -> torch.Tensor:
     """Reward torso height increase toward target while recovering from fall."""

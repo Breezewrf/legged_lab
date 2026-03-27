@@ -32,7 +32,8 @@ class G1AmpRecRewards:
             "command_name": "base_velocity",
             "std": math.sqrt(0.25),
             "fallen_min_duration_s": 0.25,
-            "fallen_height_threshold": 0.32,
+            "fallen_height_threshold": 0.26,
+            "fallen_velocity_scale": 0.3,
             "fall_asset_cfg": SceneEntityCfg("robot", body_names="torso_link"),
         },
     )
@@ -47,7 +48,7 @@ class G1AmpRecRewards:
         weight=1.2,
         params={
             "fallen_min_duration_s": 0.25,
-            "fallen_height_threshold": 0.32,
+            "fallen_height_threshold": 0.26,
             "up_asset_cfg": SceneEntityCfg("robot", body_names="torso_link"),
         },
     )
@@ -58,7 +59,7 @@ class G1AmpRecRewards:
             "target_height": 0.75,
             "std": 0.2,
             "fallen_min_duration_s": 0.25,
-            "fallen_height_threshold": 0.32,
+            "fallen_height_threshold": 0.26,
             "asset_cfg": SceneEntityCfg("robot", body_names="torso_link"),
         },
     )
@@ -161,12 +162,12 @@ class G1AmpRecEnvCfg(LocomotionAmpRecEnvCfg):
         self.observations.critic.fallen_fast.params = {
             "asset_cfg": torso_cfg,
             "min_duration_s": 0.25,
-            "height_threshold": 0.32,
+            "height_threshold": 0.26,
         }
         self.observations.critic.fallen_persistent.params = {
             "asset_cfg": torso_cfg,
-            "min_duration_s": 2.0,
-            "height_threshold": 0.32,
+            "min_duration_s": 0.8,
+            "height_threshold": 0.26,
         }
 
         self.observations.disc_demo.ref_root_local_rot_tan_norm.params["animation"] = ANIMATION_TERM_NAME
