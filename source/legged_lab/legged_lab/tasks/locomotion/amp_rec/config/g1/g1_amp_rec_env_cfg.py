@@ -43,26 +43,8 @@ class G1AmpRecRewards:
         params={"command_name": "base_velocity", "std": math.sqrt(0.25)},
     )
 
-    upright_recovery = RewTerm(
-        func=mdp.upright_recovery_reward,
-        weight=1.2,
-        params={
-            "fallen_min_duration_s": 0.25,
-            "fallen_height_threshold": 0.26,
-            "up_asset_cfg": SceneEntityCfg("robot", body_names="torso_link"),
-        },
-    )
-    root_height_recovery = RewTerm(
-        func=mdp.root_height_recovery_reward,
-        weight=1.0,
-        params={
-            "target_height": 0.75,
-            "std": 0.2,
-            "fallen_min_duration_s": 0.25,
-            "fallen_height_threshold": 0.26,
-            "asset_cfg": SceneEntityCfg("robot", body_names="torso_link"),
-        },
-    )
+    upright_recovery = None
+    root_height_recovery = None
 
     flat_orientation_l2 = RewTerm(func=mdp.flat_orientation_l2, weight=-1.0)
     lin_vel_z_l2 = RewTerm(func=mdp.lin_vel_z_l2, weight=-0.2)
@@ -154,21 +136,13 @@ class G1AmpRecEnvCfg(LocomotionAmpRecEnvCfg):
         self.observations.policy.torso_contacts = None
         self.observations.policy.knee_contacts = None
         self.observations.policy.arm_contacts = None
-        self.observations.policy.fallen_fast = None
+        # self.observations.policy.fallen_fast = None
 
         self.observations.critic.torso_contacts.params = {"sensor_cfg": SceneEntityCfg("contact_forces", body_names="torso_link")}
         self.observations.critic.knee_contacts.params = {"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*_knee_link")}
         self.observations.critic.arm_contacts.params = {"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*_shoulder_.*|.*_elbow_.*|.*_wrist_.*")}
-        self.observations.critic.fallen_fast.params = {
-            "asset_cfg": torso_cfg,
-            "min_duration_s": 0.25,
-            "height_threshold": 0.26,
-        }
-        self.observations.critic.fallen_persistent.params = {
-            "asset_cfg": torso_cfg,
-            "min_duration_s": 0.8,
-            "height_threshold": 0.26,
-        }
+        # self.observations.critic.fallen_fast.params = None
+        # self.observations.critic.fallen_persistent.params = None
 
         self.observations.disc_demo.ref_root_local_rot_tan_norm.params["animation"] = ANIMATION_TERM_NAME
         self.observations.disc_demo.ref_root_ang_vel_b.params["animation"] = ANIMATION_TERM_NAME
@@ -181,10 +155,7 @@ class G1AmpRecEnvCfg(LocomotionAmpRecEnvCfg):
         self.events.base_external_force_torque.params["asset_cfg"].body_names = ["torso_link"]
         self.events.reset_from_ref.params = {
             "animation": ANIMATION_TERM_NAME,
-            "height_offset": 0.1,
-            "fall_probability": 0.3,
-            "lie_height": 0.24,
-            "crouch_height": 0.45,
+            "height_offset": 0.1
         }
 
         self.commands.base_velocity.ranges.lin_vel_x = (-0.5, 3.0)

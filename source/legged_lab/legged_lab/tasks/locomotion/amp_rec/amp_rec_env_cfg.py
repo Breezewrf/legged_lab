@@ -94,7 +94,7 @@ class ObservationsCfg:
         torso_contacts = ObsTerm(func=mdp.contact_force_norm, params=MISSING)
         knee_contacts = ObsTerm(func=mdp.contact_force_norm, params=MISSING)
         arm_contacts = ObsTerm(func=mdp.contact_force_norm, params=MISSING)
-        fallen_fast = ObsTerm(func=mdp.fallen_fast_obs, params=MISSING)
+        # fallen_fast = ObsTerm(func=mdp.fallen_fast_obs, params=MISSING)
 
         def __post_init__(self):
             self.history_length = 5
@@ -118,8 +118,8 @@ class ObservationsCfg:
         torso_contacts = ObsTerm(func=mdp.contact_force_norm, params=MISSING)
         knee_contacts = ObsTerm(func=mdp.contact_force_norm, params=MISSING)
         arm_contacts = ObsTerm(func=mdp.contact_force_norm, params=MISSING)
-        fallen_fast = ObsTerm(func=mdp.fallen_fast_obs, params=MISSING)
-        fallen_persistent = ObsTerm(func=mdp.fallen_persistent_obs, params=MISSING)
+        # fallen_fast = ObsTerm(func=mdp.fallen_fast_obs, params=MISSING)
+        # fallen_persistent = ObsTerm(func=mdp.fallen_persistent_obs, params=MISSING)
 
         def __post_init__(self):
             self.history_length = 5
@@ -197,7 +197,7 @@ class EventCfg:
         },
     )
 
-    reset_from_ref = EventTerm(func=mdp.reset_from_ref_with_fall_probability, mode="reset", params=MISSING)
+    reset_from_ref = EventTerm(func=mdp.reset_from_ref, mode="reset", params=MISSING)
 
     push_robot = EventTerm(
         func=mdp.push_by_setting_velocity,
@@ -220,8 +220,8 @@ class RewardsCfg:
         params={"command_name": "base_velocity", "std": math.sqrt(0.25)},
     )
 
-    upright_recovery = RewTerm(func=mdp.upright_recovery_reward, weight=1.0)
-    root_height_recovery = RewTerm(func=mdp.root_height_recovery_reward, weight=0.6, params={"target_height": 0.75, "std": 0.2})
+    # upright_recovery = RewTerm(func=mdp.upright_recovery_reward, weight=1.0)
+    # root_height_recovery = RewTerm(func=mdp.root_height_recovery_reward, weight=0.6, params={"target_height": 0.75, "std": 0.2})
 
     lin_vel_z_l2 = RewTerm(func=mdp.lin_vel_z_l2, weight=-2.0)
     ang_vel_xy_l2 = RewTerm(func=mdp.ang_vel_xy_l2, weight=-0.05)
